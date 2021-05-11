@@ -169,10 +169,10 @@ public class AutosControllerTest {
         when(autosService.addAuto(any(Automobile.class))).thenReturn(automobile);
         String expectedData = "{\"color\": \"red\", \"make\": \"honda\",\"year\": 1999,\"vin\": \"4444\"}";
         mockMvc.perform(post("/api/autos").contentType(MediaType.APPLICATION_JSON)
-                                            .content(expectedData))
+                                            .content(mapper.writeValueAsString(automobile)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("make").value("honda"));
+                .andExpect(jsonPath("make").value("Toyota"));
     }
     // GET: /api/autos/{vin} returns auto by VIN (id) number
 

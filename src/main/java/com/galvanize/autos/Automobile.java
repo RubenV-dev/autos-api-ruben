@@ -9,6 +9,7 @@ public class Automobile {
     private String vin;
     private int year;
 
+    public Automobile(){}
 
     public Automobile(String color, String make, int year, String model, String owner, String vin){
         this.color = color;
