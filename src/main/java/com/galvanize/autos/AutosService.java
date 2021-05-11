@@ -3,6 +3,8 @@ package com.galvanize.autos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AutosService {
 
@@ -16,6 +18,10 @@ public class AutosService {
     }
 
     public AutosList getAutos(String color){
+        List<Automobile> automobiles = autosRepository.findByColorContains(color);
+        if(!automobiles.isEmpty()){
+            return new AutosList(automobiles);
+        }
         return null;
     }
     public AutosList getAutos(String color, String owner){
