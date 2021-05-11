@@ -199,7 +199,7 @@ public class AutosControllerTest {
         Automobile automobile = new Automobile("Toyota", 1994, "Camry", "44444");
         when(autosService.updateAuto(anyString(),anyString(),anyString())).thenReturn(automobile);
         String expectedData = "{\"color\": \"red\", \"owner\": \"ruben\"}";
-        mockMvc.perform(patch("/api/autos/" + automobile.getVin()).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(patch("/api/autos/" + automobile.getVin())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(expectedData))
                 .andExpect(status().isOk())
@@ -242,6 +242,18 @@ public class AutosControllerTest {
         }
 
     // PATCH: /api/autos/{vin} returns 204 (no content) when no vehicle with that vin is found
+    @Test
+    @DisplayName("PATCH car by vin returns 204 when no such car exists")
+    void updateCarByVin_invalidVin_noContentError() throws Exception {
+        doThrow(new AutoNotFoundException()).when(autosService).updateAuto(anyString(),anyString(),anyString());
+        String expectedData = "{\"color\": \"red\", \"owner\": \"ruben\"}";
+        mockMvc.perform(patch("/api/autos/aabbcc")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(expectedData))
+                .andExpect(status().isNoContent());
+    }
+
+
     // PATCH: /api/autos/{vin} returns 400 (bad request) when no payload, no changes or already done
 
     // DELETE: /api/autos/{vin} 204 (no content) when there is no vehicle with that VIN
