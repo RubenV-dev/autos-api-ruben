@@ -11,8 +11,11 @@ public class AutosService {
     public AutosList getAutos(String color){
         return null;
     }
-
     public AutosList getAutos(String color, String owner){
+        return null;
+    }
+
+    public AutosList getAutos(String color, String owner, String make){
         return null;
     }
 

@@ -67,9 +67,38 @@ public class AutosControllerTest {
                 .andExpect(jsonPath("$.automobiles", hasSize(6)));
     }
     // GET: /api/autos?make=toyota returns all toyotas
+    @Test
+    @DisplayName("GET all can filter by make")
+    void getAll_canFilterByMake_returnsAllCarsFilteredByMake() throws Exception {
+        List<Automobile> autosList = new ArrayList<>();
+        for(int i = 0; i < 8; i++){
+            autosList.add(new Automobile("Toyota", 1994, "Camry", "44444"));
+        }
+        AutosList actual = new AutosList(autosList);
+        when(autosService.getAutos(anyString())).thenReturn(actual);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/autos?make=toyota"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.automobiles", hasSize(8)));
+    }
+
+    @Test
+    @DisplayName("GET all can filter by owner")
+    void getAll_canFilterByMake_returnsAllCarsFilteredByOwner() throws Exception {
+        List<Automobile> autosList = new ArrayList<>();
+        for(int i = 0; i < 4; i++){
+            autosList.add(new Automobile("Toyota", 1994, "Camry", "44444"));
+        }
+        AutosList actual = new AutosList(autosList);
+        when(autosService.getAutos(anyString())).thenReturn(actual);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/autos?owner=mavi"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.automobiles", hasSize(4)));
+    }
     // GET: /api/autos?color=blue&owner=Ruben returns all blue cars with owner ruben
     @Test
-    @DisplayName("GET all can filter by color")
+    @DisplayName("GET all can filter by color and owner")
     void getAllCanFilterByColorAndOwner() throws Exception {
         List<Automobile> autosList = new ArrayList<>();
         for(int i = 0; i < 4; i++){
@@ -78,6 +107,52 @@ public class AutosControllerTest {
         AutosList actual = new AutosList(autosList);
         when(autosService.getAutos(anyString(),anyString())).thenReturn(actual);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/autos?color=blue&&owner=ruben"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.automobiles", hasSize(4)));
+    }
+
+    @Test
+    @DisplayName("GET all can filter by color and make")
+    void getAllCanFilterByColorAndMake() throws Exception {
+        List<Automobile> autosList = new ArrayList<>();
+        for(int i = 0; i < 4; i++){
+            autosList.add(new Automobile("Toyota", 1994, "Camry", "44444"));
+        }
+        AutosList actual = new AutosList(autosList);
+        when(autosService.getAutos(anyString(),anyString())).thenReturn(actual);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/autos?color=blue&&make=crystler"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.automobiles", hasSize(4)));
+    }
+
+    @Test
+    @DisplayName("GET all can filter by owner and make")
+    void getAllCanFilterByOwnerAndMake() throws Exception {
+        List<Automobile> autosList = new ArrayList<>();
+        for(int i = 0; i < 2; i++){
+            autosList.add(new Automobile("Toyota", 1994, "Camry", "44444"));
+        }
+        AutosList actual = new AutosList(autosList);
+        when(autosService.getAutos(anyString(),anyString())).thenReturn(actual);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/autos?owner=mavi&&make=crystler"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.automobiles", hasSize(2)));
+    }
+
+
+    @Test
+    @DisplayName("GET all can filter by color and owner and make")
+    void getAllCanFilterByColorAndOwnerAndMake() throws Exception {
+        List<Automobile> autosList = new ArrayList<>();
+        for(int i = 0; i < 4; i++){
+            autosList.add(new Automobile("Toyota", 1994, "Camry", "44444"));
+        }
+        AutosList actual = new AutosList(autosList);
+        when(autosService.getAutos(anyString(),anyString(),anyString())).thenReturn(actual);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/autos?color=blue&&owner=ruben&&make=toyota"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.automobiles", hasSize(4)));
