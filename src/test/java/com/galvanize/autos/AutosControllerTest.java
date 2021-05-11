@@ -47,6 +47,7 @@ public class AutosControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.automobiles", hasSize(5)));
     }
+
     // GET: /api/autos no autos in database returns 204 no content
     @Test
     void getAuto_noParams_none_returnsNoContent() throws Exception {
@@ -231,8 +232,14 @@ public class AutosControllerTest {
                 .andExpect(status().isBadRequest());
     }
         // GET: /api/autos/{vin} returns 204 (no content) when no vehicle with that vin is found
+        @Test
+        @DisplayName("GET car by vin returns 204 when no such car exists")
+        void getCarByVin_invalidVin_noContentError() throws Exception {
+               doThrow(new AutoNotFoundException()).when(autosService).getAuto(anyString());
+               mockMvc.perform(get("/api/autos/aabbcc"))
+                       .andExpect(status().isNoContent());
 
-
+        }
 
     // PATCH: /api/autos/{vin} returns 204 (no content) when no vehicle with that vin is found
     // PATCH: /api/autos/{vin} returns 400 (bad request) when no payload, no changes or already done
