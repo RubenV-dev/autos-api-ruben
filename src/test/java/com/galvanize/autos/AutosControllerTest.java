@@ -253,8 +253,18 @@ public class AutosControllerTest {
                 .andExpect(status().isNoContent());
     }
 
-
     // PATCH: /api/autos/{vin} returns 400 (bad request) when no payload, no changes or already done
+    @Test
+    @DisplayName("PATCH car by vin returns 204 when no such car exists")
+    void updateCarByVin_invalidPayload_badRequestError() throws Exception {
+        doThrow(new InvalidAutoException()).when(autosService).updateAuto(anyString(),anyString(),anyString());
+        String expectedData = "{\"color\": \"red\", \"owner\": \"ruben\"}";
+        mockMvc.perform(patch("/api/autos/aabbcc")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(expectedData))
+                .andExpect(status().isBadRequest());
+    }
+
 
     // DELETE: /api/autos/{vin} 204 (no content) when there is no vehicle with that VIN
     @Test
