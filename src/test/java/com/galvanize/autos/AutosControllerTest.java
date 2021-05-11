@@ -219,11 +219,31 @@ public class AutosControllerTest {
 
     /////// STRETCHES
     // POST: /api/autos bad params returns 400 (bad request)
+    @Test
+    @DisplayName("cannot POST invalid car")
+    void addAuto_invalid_returnsBadRequest() throws Exception {
+        Automobile automobile = new Automobile("Toyota", 1994, "Camry", "44444");
+        when(autosService.addAuto(any(Automobile.class))).thenThrow(InvalidAutoException.class);
 
-    // GET: /api/autos/{vin} returns 204 (no content) when no vehicle with that vin is found
+        mockMvc.perform(post("/api/autos").contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(automobile)))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+        // GET: /api/autos/{vin} returns 204 (no content) when no vehicle with that vin is found
+
+
 
     // PATCH: /api/autos/{vin} returns 204 (no content) when no vehicle with that vin is found
     // PATCH: /api/autos/{vin} returns 400 (bad request) when no payload, no changes or already done
 
     // DELETE: /api/autos/{vin} 204 (no content) when there is no vehicle with that VIN
+    @Test
+    @DisplayName("attempt to DELETE nonexistent car")
+    void deleteAuto_withVin_doesNotExist_returnsNoContent() throws Exception{
+        doThrow(new AutoNotFoundException()).when(autosService).deleteAuto(anyString());
+        mockMvc.perform(delete("/api/autos/aabbcc"))
+                .andExpect(status().isNoContent());
+
+    }
 }

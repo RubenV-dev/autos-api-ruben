@@ -1,6 +1,7 @@
 package com.galvanize.autos;
 
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,6 +67,12 @@ public class AutosController {
         return autosService.addAuto(auto);
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void invalidAutoExceptionHandler(InvalidAutoException e){
+
+    }
+
     @PatchMapping("/api/autos/{vin}")
     public Automobile updateAuto(@PathVariable String vin, @RequestBody UpdateOwnerRequest update){
         Automobile automobile = autosService.updateAuto(vin, update.getColor(), update.getOwner());
@@ -76,7 +83,11 @@ public class AutosController {
 
     @DeleteMapping("/api/autos/{vin}")
     public ResponseEntity deleteAuto(@PathVariable String vin){
-        autosService.deleteAuto(vin);
+        try{
+            autosService.deleteAuto(vin);
+        } catch(AutoNotFoundException e) {
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.accepted().build();
     }
 
