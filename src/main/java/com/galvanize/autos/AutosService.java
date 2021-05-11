@@ -31,4 +31,8 @@ public class AutosService {
         return null;
     }
 
+    public Automobile deleteAuto(String vin){
+        return null;
+    }
+
 }

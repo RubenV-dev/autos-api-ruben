@@ -16,8 +16,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -40,7 +39,7 @@ public class AutosControllerTest {
         for(int i = 0; i < 5; i++){
             autosList.add(new Automobile("Toyota", 1994, "Camry", "44444"));
         }
-//        String expectedData = "{{\"color\": \"red\", \"make\": \"honda\"},{\"color\": \"red\", \"make\": \"honda\"},{\"color\": \"red\", \"make\": \"honda\"},{\"color\": \"red\", \"make\": \"honda\"},{\"color\": \"red\", \"make\": \"honda\"}}";
+
         AutosList actual = new AutosList(autosList);
         when(autosService.getAutos()).thenReturn(actual);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/autos"))
@@ -169,7 +168,7 @@ public class AutosControllerTest {
     void addAuto_valid_returnsAuto() throws Exception{
         Automobile automobile = new Automobile("Toyota", 1994, "Camry", "44444");
         when(autosService.addAuto(any(Automobile.class))).thenReturn(automobile);
-//        String expectedData = "{\"color\": \"red\", \"make\": \"honda\",\"year\": 1999,\"vin\": \"4444\"}";
+
         mockMvc.perform(post("/api/autos").contentType(MediaType.APPLICATION_JSON)
                                             .content(mapper.writeValueAsString(automobile)))
                 .andDo(print())
@@ -182,11 +181,7 @@ public class AutosControllerTest {
     @DisplayName("can GET single car by VIN")
     void getCarByVin() throws Exception {
         Automobile automobile = new Automobile("Toyota", 1994, "Camry", "44444");
-//        List<Automobile> autosList = new ArrayList<>();
-//        for(int i = 0; i < 4; i++){
-//            autosList.add(new Automobile("Toyota", 1994, "Camry", String.valueOf(i)));
-//        }
-//        AutosList actual = new AutosList(autosList);
+
         when(autosService.getAuto(anyString())).thenReturn(automobile);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/autos/" + automobile.getVin()))
                 .andDo(print())
@@ -212,6 +207,14 @@ public class AutosControllerTest {
     }
 
     // DELETE: /api/autos/{vin} deletes auto with specified VIN (202)
+    @Test
+    @DisplayName("can DELETE existing car")
+    void deleteAuto_withVin_exists_returns202() throws Exception{
+        mockMvc.perform(delete("/api/autos/aabbcc"))
+                .andExpect(status().isAccepted());
+
+        verify(autosService).deleteAuto(anyString());
+    }
 
 
     /////// STRETCHES

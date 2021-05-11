@@ -74,4 +74,10 @@ public class AutosController {
         return automobile;
     }
 
+    @DeleteMapping("/api/autos/{vin}")
+    public ResponseEntity deleteAuto(@PathVariable String vin){
+        autosService.deleteAuto(vin);
+        return ResponseEntity.accepted().build();
+    }
+
 }
