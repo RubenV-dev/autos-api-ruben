@@ -1,10 +1,12 @@
 package com.galvanize.autos;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -14,6 +16,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -22,6 +25,8 @@ public class AutosControllerTest {
 
     @MockBean
     AutosService autosService;
+
+    ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
     MockMvc mockMvc;
@@ -142,7 +147,6 @@ public class AutosControllerTest {
                 .andExpect(jsonPath("$.automobiles", hasSize(2)));
     }
 
-
     @Test
     @DisplayName("GET all can filter by color and owner and make")
     void getAllCanFilterByColorAndOwnerAndMake() throws Exception {
@@ -157,8 +161,19 @@ public class AutosControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.automobiles", hasSize(4)));
     }
-    // POST: /api/autos adds automobile & returns it when given correct params (200)
 
+    // POST: /api/autos adds automobile & returns it when given correct params (200)
+    @Test
+    void addAuto_valid_returnsAuto() throws Exception{
+        Automobile automobile = new Automobile("Toyota", 1994, "Camry", "44444");
+        when(autosService.addAuto(any(Automobile.class))).thenReturn(automobile);
+        String expectedData = "{\"color\": \"red\", \"make\": \"honda\",\"year\": 1999,\"vin\": \"4444\"}";
+        mockMvc.perform(post("/api/autos").contentType(MediaType.APPLICATION_JSON)
+                                            .content(expectedData))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("make").value("honda"));
+    }
     // GET: /api/autos/{vin} returns auto by VIN (id) number
 
     // PATCH: /api/autos/{vin} returns patched automobile with supplied vin

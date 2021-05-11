@@ -27,6 +27,13 @@ public class Automobile {
         this.year = year;
     }
 
+    public Automobile(String make, int year, String model, String vin){
+        this.make = make;
+        this.model = model;
+        this.vin = vin;
+        this.year = year;
+    }
+
     public Automobile(String color, String make, int year, String model, String vin){
         this.color = color;
         this.make = make;
@@ -35,12 +42,6 @@ public class Automobile {
         this.year = year;
     }
 
-    public Automobile(String make, int year, String model, String vin){
-        this.make = make;
-        this.model = model;
-        this.vin = vin;
-        this.year = year;
-    }
 
     public String getColor() {
         return color;
