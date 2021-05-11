@@ -23,4 +23,12 @@ public class AutosService {
         return null;
     }
 
+    public Automobile getAuto(String vin){
+        return null;
+    }
+
+    public Automobile updateAuto(String vin, String color, String owner){
+        return null;
+    }
+
 }
