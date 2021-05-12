@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AutosService {
@@ -82,6 +83,12 @@ public class AutosService {
     }
 
     public Automobile updateAuto(String vin, String color, String owner){
+        Optional<Automobile> oAuto = autosRepository.findByVin(vin);
+        if(oAuto.isPresent()){
+            oAuto.get().setColor(color);
+            oAuto.get().setOwner(owner);
+            return autosRepository.save(oAuto.get());
+        }
         return null;
     }
 
