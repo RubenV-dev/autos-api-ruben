@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(AutosController.class)
 public class AutosControllerTest {
-
+//currently all tests passing
     @MockBean
     AutosService autosService;
 
