@@ -120,7 +120,12 @@ class AutosServiceTest {
     }
 
     @Test
-    void getAuto() {
+    void getAutoByVin() {
+        Automobile automobile = new Automobile("blue,", "Toyota", 1994, "Camry", "ruben", "44444");
+        when(autosRepository.findByVin(anyString())).thenReturn(java.util.Optional.of(automobile));
+        Automobile automobile2 = autosService.getAuto(automobile.getVin());
+        assertThat(automobile2).isNotNull();
+        assertThat(automobile2.getVin()).isEqualTo(automobile.getVin());
     }
 
     @Test
