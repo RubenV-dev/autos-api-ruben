@@ -17,18 +17,59 @@ public class AutosService {
         return new AutosList(autosRepository.findAll());
     }
 
-    public AutosList getAutos(String color){
+    public AutosList getAutosByColor(String color){
         List<Automobile> automobiles = autosRepository.findByColorContains(color);
         if(!automobiles.isEmpty()){
             return new AutosList(automobiles);
         }
         return null;
     }
-    public AutosList getAutos(String color, String owner){
+
+    public AutosList getAutosByOwner(String owner){
+        List<Automobile> automobiles = autosRepository.findByOwnerContains(owner);
+        if(!automobiles.isEmpty()){
+            return new AutosList(automobiles);
+        }
         return null;
     }
 
-    public AutosList getAutos(String color, String owner, String make){
+    public AutosList getAutosByMake(String make){
+        List<Automobile> automobiles = autosRepository.findByMakeContains(make);
+        if(!automobiles.isEmpty()){
+            return new AutosList(automobiles);
+        }
+        return null;
+    }
+
+    public AutosList getAutosByColorAndOwner(String color, String owner){
+        List<Automobile> automobiles = autosRepository.findByColorContainsAndOwnerContains(color, owner);
+        if(!automobiles.isEmpty()){
+            return new AutosList(automobiles);
+        }
+        return null;
+    }
+
+    public AutosList getAutosByOwnerAndMake(String owner, String make){
+        List<Automobile> automobiles = autosRepository.findByOwnerContainsAndMakeContains(owner, make);
+        if(!automobiles.isEmpty()){
+            return new AutosList(automobiles);
+        }
+        return null;
+    }
+
+    public AutosList getAutosByMakeAndColor(String make, String color){
+        List<Automobile> automobiles = autosRepository.findByMakeContainsAndColorContains(make, color);
+        if(!automobiles.isEmpty()){
+            return new AutosList(automobiles);
+        }
+        return null;
+    }
+
+    public AutosList getAutosByColorAndOwnerAndMake(String color, String owner, String make){
+        List<Automobile> automobiles = autosRepository.findByColorContainsAndOwnerContainsAndMakeContains(color, owner, make);
+        if(!automobiles.isEmpty()){
+            return new AutosList(automobiles);
+        }
         return null;
     }
 

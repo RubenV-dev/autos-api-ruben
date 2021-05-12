@@ -66,7 +66,7 @@ public class AutosControllerTest {
             autosList.add(new Automobile("Toyota", 1994, "Camry", "44444"));
         }
         AutosList actual = new AutosList(autosList);
-        when(autosService.getAutos(anyString())).thenReturn(actual);
+        when(autosService.getAutosByColor(anyString())).thenReturn(actual);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/autos?color=blue"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -81,7 +81,7 @@ public class AutosControllerTest {
             autosList.add(new Automobile("Toyota", 1994, "Camry", "44444"));
         }
         AutosList actual = new AutosList(autosList);
-        when(autosService.getAutos(anyString())).thenReturn(actual);
+        when(autosService.getAutosByMake(anyString())).thenReturn(actual);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/autos?make=toyota"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -96,7 +96,7 @@ public class AutosControllerTest {
             autosList.add(new Automobile("Toyota", 1994, "Camry", "44444"));
         }
         AutosList actual = new AutosList(autosList);
-        when(autosService.getAutos(anyString())).thenReturn(actual);
+        when(autosService.getAutosByOwner(anyString())).thenReturn(actual);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/autos?owner=mavi"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -111,7 +111,7 @@ public class AutosControllerTest {
             autosList.add(new Automobile("Toyota", 1994, "Camry", "44444"));
         }
         AutosList actual = new AutosList(autosList);
-        when(autosService.getAutos(anyString(),anyString())).thenReturn(actual);
+        when(autosService.getAutosByColorAndOwner(anyString(),anyString())).thenReturn(actual);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/autos?color=blue&&owner=ruben"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -120,13 +120,13 @@ public class AutosControllerTest {
 
     @Test
     @DisplayName("GET all can filter by color and make")
-    void getAllCanFilterByColorAndMake() throws Exception {
+    void getAllCanFilterByMakeAndColor() throws Exception {
         List<Automobile> autosList = new ArrayList<>();
         for(int i = 0; i < 4; i++){
             autosList.add(new Automobile("Toyota", 1994, "Camry", "44444"));
         }
         AutosList actual = new AutosList(autosList);
-        when(autosService.getAutos(anyString(),anyString())).thenReturn(actual);
+        when(autosService.getAutosByMakeAndColor(anyString(),anyString())).thenReturn(actual);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/autos?color=blue&&make=crystler"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -141,7 +141,7 @@ public class AutosControllerTest {
             autosList.add(new Automobile("Toyota", 1994, "Camry", "44444"));
         }
         AutosList actual = new AutosList(autosList);
-        when(autosService.getAutos(anyString(),anyString())).thenReturn(actual);
+        when(autosService.getAutosByOwnerAndMake(anyString(),anyString())).thenReturn(actual);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/autos?owner=mavi&&make=crystler"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -156,7 +156,7 @@ public class AutosControllerTest {
             autosList.add(new Automobile("Toyota", 1994, "Camry", "44444"));
         }
         AutosList actual = new AutosList(autosList);
-        when(autosService.getAutos(anyString(),anyString(),anyString())).thenReturn(actual);
+        when(autosService.getAutosByColorAndOwnerAndMake(anyString(),anyString(),anyString())).thenReturn(actual);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/autos?color=blue&&owner=ruben&&make=toyota"))
                 .andDo(print())
                 .andExpect(status().isOk())
