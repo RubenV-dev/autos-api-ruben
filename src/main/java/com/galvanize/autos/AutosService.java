@@ -23,7 +23,7 @@ public class AutosService {
         if(!automobiles.isEmpty()){
             return new AutosList(automobiles);
         }
-        return null;
+        return new AutosList();
     }
 
     public AutosList getAutosByOwner(String owner){
@@ -31,7 +31,7 @@ public class AutosService {
         if(!automobiles.isEmpty()){
             return new AutosList(automobiles);
         }
-        return null;
+        return new AutosList();
     }
 
     public AutosList getAutosByMake(String make){
@@ -39,7 +39,7 @@ public class AutosService {
         if(!automobiles.isEmpty()){
             return new AutosList(automobiles);
         }
-        return null;
+        return new AutosList();
     }
 
     public AutosList getAutosByColorAndOwner(String color, String owner){
@@ -47,7 +47,7 @@ public class AutosService {
         if(!automobiles.isEmpty()){
             return new AutosList(automobiles);
         }
-        return null;
+        return new AutosList();
     }
 
     public AutosList getAutosByOwnerAndMake(String owner, String make){
@@ -55,7 +55,7 @@ public class AutosService {
         if(!automobiles.isEmpty()){
             return new AutosList(automobiles);
         }
-        return null;
+        return new AutosList();
     }
 
     public AutosList getAutosByMakeAndColor(String make, String color){
@@ -63,7 +63,7 @@ public class AutosService {
         if(!automobiles.isEmpty()){
             return new AutosList(automobiles);
         }
-        return null;
+        return new AutosList();
     }
 
     public AutosList getAutosByColorAndOwnerAndMake(String color, String owner, String make){
@@ -71,7 +71,7 @@ public class AutosService {
         if(!automobiles.isEmpty()){
             return new AutosList(automobiles);
         }
-        return null;
+        return new AutosList();
     }
 
     public Automobile addAuto(Automobile auto){
