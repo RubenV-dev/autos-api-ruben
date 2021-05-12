@@ -21,19 +21,19 @@ public class AutosController {
         AutosList autosList;
 
         if (color != null && owner != null && make!=null){
-            autosList = autosService.getAutos(color,owner,make);
+            autosList = autosService.getAutosByColorAndOwnerAndMake(color,owner,make);
         }else if (color != null && owner == null && make==null){
-            autosList = autosService.getAutos(color);
+            autosList = autosService.getAutosByColor(color);
         }else if (color == null && owner == null && make != null) {
-            autosList = autosService.getAutos(make);
+            autosList = autosService.getAutosByMake(make);
         }else if (color == null && owner != null && make == null){
-            autosList = autosService.getAutos(owner);
+            autosList = autosService.getAutosByOwner(owner);
         } else if (color != null && owner != null){
-            autosList = autosService.getAutos(color, owner);
+            autosList = autosService.getAutosByColorAndOwner(color, owner);
         } else if (color != null) {
-            autosList = autosService.getAutos(color, make);
+            autosList = autosService.getAutosByMakeAndColor(make, color);
         } else if (owner != null) {
-            autosList = autosService.getAutos(owner, make);
+            autosList = autosService.getAutosByOwnerAndMake(owner, make);
         }else {
             autosList = autosService.getAutos();
         }
