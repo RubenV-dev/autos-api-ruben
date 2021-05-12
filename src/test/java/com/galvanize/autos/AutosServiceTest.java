@@ -12,6 +12,7 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -111,7 +112,11 @@ class AutosServiceTest {
 
     @Test
     void addAuto() {
-
+        Automobile automobile = new Automobile("blue,", "Toyota", 1994, "Camry", "ruben", "44444");
+        when(autosRepository.save(any(Automobile.class))).thenReturn(automobile);
+        Automobile automobile2 = autosService.addAuto( automobile);
+        assertThat(automobile2).isNotNull();
+        assertThat(automobile2.getMake()).isEqualTo("Toyota");
     }
 
     @Test
