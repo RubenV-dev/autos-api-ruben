@@ -11,9 +11,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -111,6 +113,7 @@ class AutosServiceTest {
     }
 
     @Test
+    @DisplayName("add auto in autosservice")
     void addAuto() {
         Automobile automobile = new Automobile("blue,", "Toyota", 1994, "Camry", "ruben", "44444");
         when(autosRepository.save(any(Automobile.class))).thenReturn(automobile);
@@ -120,6 +123,7 @@ class AutosServiceTest {
     }
 
     @Test
+    @DisplayName("GET auto by vin")
     void getAutoByVin() {
         Automobile automobile = new Automobile("blue,", "Toyota", 1994, "Camry", "ruben", "44444");
         when(autosRepository.findByVin(anyString())).thenReturn(java.util.Optional.of(automobile));
@@ -129,6 +133,7 @@ class AutosServiceTest {
     }
 
     @Test
+    @DisplayName("update auto in autosservice")
     void updateAuto() {
         Automobile automobile = new Automobile("blue,", "Toyota", 1994, "Camry", "ruben", "44444");
         when(autosRepository.findByVin(anyString())).thenReturn(java.util.Optional.of(automobile));
@@ -139,6 +144,19 @@ class AutosServiceTest {
     }
 
     @Test
-    void deleteAuto() {
+    @DisplayName("delete auto by vin in autosservice")
+    void deleteAutoByVin() {
+        Automobile automobile = new Automobile("blue,", "Toyota", 1994, "Camry", "ruben", "44444");
+        when(autosRepository.findByVin(anyString())).thenReturn(java.util.Optional.of(automobile));
+        autosService.deleteAuto(automobile.getVin());
+        verify(autosRepository).delete(any(Automobile.class));
+    }
+
+    @Test
+    @DisplayName("throw exception when deleting by nonexistent vin")
+    void deleteAutoByVin_doesntExist(){
+        when(autosRepository.findByVin(anyString())).thenReturn(java.util.Optional.empty());
+        assertThatExceptionOfType(AutoNotFoundException.class)
+                .isThrownBy(() -> autosService.deleteAuto("a fake vin"));
     }
 }
