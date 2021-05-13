@@ -1,6 +1,5 @@
 package com.galvanize.autos;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -96,6 +95,7 @@ public class AutosService {
         Optional<Automobile> oAuto = autosRepository.findByVin(vin);
         if(oAuto.isPresent()){
             autosRepository.delete(oAuto.get());
+            //automobile.ifPresent(value -> autosRepository.deleteById(value.getId()))
         } else {
             throw new AutoNotFoundException();
         }

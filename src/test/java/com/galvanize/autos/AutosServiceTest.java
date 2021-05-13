@@ -58,7 +58,7 @@ class AutosServiceTest {
         when(autosRepository.findByColorContains(anyString())).thenReturn(Arrays.asList(automobiles));
         AutosList autoslist = autosService.getAutosByColor("blue");
         assertThat(autoslist).isNotNull();
-        assertThat(autoslist.isEmpty());
+        assertTrue(autoslist.isEmpty());
     }
 
     @Test
@@ -79,7 +79,7 @@ class AutosServiceTest {
         when(autosRepository.findByOwnerContains(anyString())).thenReturn(Arrays.asList(automobiles));
         AutosList autoslist = autosService.getAutosByOwner("mavi");
         assertThat(autoslist).isNotNull();
-        assertThat(autoslist.isEmpty());
+        assertTrue(autoslist.isEmpty());
     }
 
     @Test
@@ -99,7 +99,7 @@ class AutosServiceTest {
         when(autosRepository.findByMakeContains(anyString())).thenReturn(Arrays.asList(automobiles));
         AutosList autoslist = autosService.getAutosByMake("Toyota");
         assertThat(autoslist).isNotNull();
-        assertThat(autoslist.isEmpty());
+        assertTrue(autoslist.isEmpty());
     }
 
     @Test
@@ -119,7 +119,7 @@ class AutosServiceTest {
         when(autosRepository.findByColorContainsAndOwnerContains(anyString(), anyString())).thenReturn(Arrays.asList(automobiles));
         AutosList autoslist = autosService.getAutosByColorAndOwner("blue", "mavi");
         assertThat(autoslist).isNotNull();
-        assertThat(autoslist.isEmpty());
+        assertTrue(autoslist.isEmpty());
     }
 
     @Test
@@ -139,7 +139,7 @@ class AutosServiceTest {
         when(autosRepository.findByOwnerContainsAndMakeContains(anyString(), anyString())).thenReturn(Arrays.asList(automobiles));
         AutosList autoslist = autosService.getAutosByOwnerAndMake("mavi", "Toyota");
         assertThat(autoslist).isNotNull();
-        assertThat(autoslist.isEmpty());
+        assertTrue(autoslist.isEmpty());
     }
 
     @Test
@@ -159,7 +159,7 @@ class AutosServiceTest {
         when(autosRepository.findByMakeContainsAndColorContains(anyString(), anyString())).thenReturn(Arrays.asList(automobiles));
         AutosList autoslist = autosService.getAutosByMakeAndColor("mavi", "Toyota");
         assertThat(autoslist).isNotNull();
-        assertThat(autoslist.isEmpty());
+        assertTrue(autoslist.isEmpty());
     }
 
     @Test
@@ -179,7 +179,7 @@ class AutosServiceTest {
         when(autosRepository.findByColorContainsAndOwnerContainsAndMakeContains(anyString(), anyString(), anyString())).thenReturn(Arrays.asList(automobiles));
         AutosList autoslist = autosService.getAutosByColorAndOwnerAndMake("blue", "mavi", "Toyota");
         assertThat(autoslist).isNotNull();
-        assertThat(autoslist.isEmpty());
+        assertTrue(autoslist.isEmpty());
     }
 
     @Test
