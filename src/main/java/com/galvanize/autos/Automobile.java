@@ -1,7 +1,17 @@
 package com.galvanize.autos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "Automobiles") // renames table from "automobile" to "automobiles". Equivalent annotation also available for renaming columns
+@JsonInclude(JsonInclude.Include.NON_NULL) // excludes all null fields
 public class Automobile {
 
+    // column annotations to keep in mind: @Column to rename, @JSONFormat to enforce patterns in e.g. date
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) // primary key; auto-increment
+    private Long id;
     private String color;
     private String make;
     private String model;
