@@ -76,6 +76,76 @@ class AutosApiApplicationTests {
     }
 
     /// filter gets
+
+    @Test
+    @DisplayName("GET by color returns all of that color")
+    void searchByColor(){
+        ResponseEntity<AutosList> response = restTemplate.getForEntity("/api/autos?color=blood red", AutosList.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getAutomobiles().size()).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("GET by make returns all of that make")
+    void searchByMake(){
+        ResponseEntity<AutosList> response = restTemplate.getForEntity("/api/autos?make=Toyota", AutosList.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getAutomobiles().size()).isEqualTo(5);
+    }
+
+    @Test
+    @DisplayName("GET by owner returns all of that owner")
+    void searchByModel(){
+        ResponseEntity<AutosList> response = restTemplate.getForEntity("/api/autos?owner=ruben", AutosList.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getAutomobiles().size()).isEqualTo(2);
+    }
+    /// need 4 more filter tests
+    @Test
+    @DisplayName("GET by color and make returns all of that color and make")
+    void searchByColorAndMake(){
+        ResponseEntity<AutosList> response = restTemplate.getForEntity("/api/autos?color=blood red&make=Honda", AutosList.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+//                for(Automobile auto: response.getBody().getAutomobiles()){
+//            System.out.println("color =" + auto.getColor() + ", model = " + auto.getModel());
+//        }
+        assertThat(response.getBody().getAutomobiles().size()).isEqualTo(2);
+    }
+    @Test
+    @DisplayName("GET by make and owner returns all of that make and owner")
+    void searchByMakeAndOwner(){
+        ResponseEntity<AutosList> response = restTemplate.getForEntity("/api/autos?make=Honda&owner=ruben", AutosList.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody()).isNotNull();
+//        for(Automobile auto: response.getBody().getAutomobiles()){
+//            System.out.println("model =" + auto.getModel() + ", owner = " + auto.getOwner());
+//        }
+        assertThat(response.getBody().getAutomobiles().size()).isEqualTo(1);
+    }
+    @Test
+    @DisplayName("GET by owner and color returns all of that owner and color")
+    void searchByOwnerAndColor(){
+        ResponseEntity<AutosList> response = restTemplate.getForEntity("/api/autos?owner=ruben&color=blood red", AutosList.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getAutomobiles().size()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("GET by color and owner and make returns all of those specifications")
+    void searchByColorAndOwnerAndMake(){
+        ResponseEntity<AutosList> response = restTemplate.getForEntity("/api/autos?owner=ruben&color=blood red&make=Honda", AutosList.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getAutomobiles().size()).isEqualTo(1);
+    }
+
+
     /// patch (need to read article)
     /// delete
 
