@@ -1,5 +1,7 @@
 package com.galvanize.autos;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +19,7 @@ import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AutosApiApplicationTests {
@@ -23,13 +28,17 @@ class AutosApiApplicationTests {
 
     @Autowired
     TestRestTemplate restTemplate;
+    RestTemplate patchRestTemplate;
 
     @Autowired
     AutosRepository autosRepository;
 
     @BeforeEach
     void setup(){
-        // test data
+        this.patchRestTemplate = restTemplate.getRestTemplate();
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        this.patchRestTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(httpClient));
+//         test data
         this.testAutos = new ArrayList<>();
         for(int i = 0; i < 4; i++){
             this.testAutos.add(new Automobile("Toyota", 1994 + i, "Camry", Integer.toString(i)));
@@ -145,8 +154,39 @@ class AutosApiApplicationTests {
         assertThat(response.getBody().getAutomobiles().size()).isEqualTo(1);
     }
 
+    @Test
+    @DisplayName("PATCH auto")
+    public void patchAuto(){
+        UpdateOwnerRequest update = new UpdateOwnerRequest();
+        update.setColor("grape");
+        update.setOwner("selina");
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("content-type", MediaType.APPLICATION_JSON_VALUE);
+        HttpEntity<UpdateOwnerRequest> request = new HttpEntity<>(update, headers);
+        ResponseEntity<Automobile> response = patchRestTemplate.exchange("/api/autos/44", HttpMethod.PATCH, request, Automobile.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody().getColor()).isEqualTo("grape");
+        assertThat(response.getBody().getOwner()).isEqualTo("selina");
+//            System.out.println("model = " + response.getBody().getModel() + ", owner = " + response.getBody().getOwner() + ", color = " + response.getBody().getColor());
+    }
 
-    /// patch (need to read article)
+    @Test
+    @DisplayName("GET auto by vin")
+    public void getAutoByVin(){
+        ResponseEntity<Automobile> response = restTemplate.getForEntity("/api/autos/44", Automobile.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getVin()).isEqualTo("44");
+    }
+
+
     /// delete
+    @Test
+    @DisplayName("DELETE auto")
+    public void deleteAuto(){
+        restTemplate.delete("/api/autos/1");
+        ResponseEntity<Automobile> response = restTemplate.getForEntity("/api/autos/1", Automobile.class);
+        assertNull(response.getBody());
+    }
 
 }
