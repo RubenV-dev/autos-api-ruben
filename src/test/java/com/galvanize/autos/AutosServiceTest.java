@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,6 +51,15 @@ class AutosServiceTest {
         assertThat(autoslist).isNotNull();
         assertFalse(autoslist.isEmpty());
     }
+    @Test
+    @DisplayName("GET an empty array when search by color has no results")
+    void searchAutosByColor_ReturnsEmptyArray() {
+        Automobile[] automobiles = new Automobile[0];
+        when(autosRepository.findByColorContains(anyString())).thenReturn(Arrays.asList(automobiles));
+        AutosList autoslist = autosService.getAutosByColor("blue");
+        assertThat(autoslist).isNotNull();
+        assertTrue(autoslist.isEmpty());
+    }
 
     @Test
     @DisplayName("GET all can filter owner")
@@ -63,6 +73,16 @@ class AutosServiceTest {
     }
 
     @Test
+    @DisplayName("GET an empty array when search by owner has no results")
+    void searchAutosByOwner_ReturnsEmptyArray() {
+        Automobile[] automobiles = new Automobile[0];
+        when(autosRepository.findByOwnerContains(anyString())).thenReturn(Arrays.asList(automobiles));
+        AutosList autoslist = autosService.getAutosByOwner("mavi");
+        assertThat(autoslist).isNotNull();
+        assertTrue(autoslist.isEmpty());
+    }
+
+    @Test
     @DisplayName("GET all can filter by make")
     void searchAutosByMake() {
         Automobile automobile = new Automobile("Toyota", 1994, "Camry", "44444");
@@ -70,6 +90,16 @@ class AutosServiceTest {
         AutosList autoslist = autosService.getAutosByMake("Toyota");
         assertThat(autoslist).isNotNull();
         assertFalse(autoslist.isEmpty());
+    }
+
+    @Test
+    @DisplayName("GET an empty array when search by make has no results")
+    void searchAutosByMake_ReturnsEmptyArray() {
+        Automobile[] automobiles = new Automobile[0];
+        when(autosRepository.findByMakeContains(anyString())).thenReturn(Arrays.asList(automobiles));
+        AutosList autoslist = autosService.getAutosByMake("Toyota");
+        assertThat(autoslist).isNotNull();
+        assertTrue(autoslist.isEmpty());
     }
 
     @Test
@@ -83,6 +113,16 @@ class AutosServiceTest {
     }
 
     @Test
+    @DisplayName("GET an empty array when search by color and owner has no results")
+    void searchAutosByColorAndOwner_ReturnsEmptyArray() {
+        Automobile[] automobiles = new Automobile[0];
+        when(autosRepository.findByColorContainsAndOwnerContains(anyString(), anyString())).thenReturn(Arrays.asList(automobiles));
+        AutosList autoslist = autosService.getAutosByColorAndOwner("blue", "mavi");
+        assertThat(autoslist).isNotNull();
+        assertTrue(autoslist.isEmpty());
+    }
+
+    @Test
     @DisplayName("GET all can filter by owner and make")
     void searchAutosByOwnerAndMake() {
         Automobile automobile = new Automobile("blue,", "Toyota", 1994, "Camry", "ruben", "44444");
@@ -90,6 +130,16 @@ class AutosServiceTest {
         AutosList autoslist = autosService.getAutosByOwnerAndMake("ruben", "Toyota");
         assertThat(autoslist).isNotNull();
         assertFalse(autoslist.isEmpty());
+    }
+
+    @Test
+    @DisplayName("GET an empty array when search by color and owner has no results")
+    void searchAutosByOwnerAndMake_ReturnsEmptyArray() {
+        Automobile[] automobiles = new Automobile[0];
+        when(autosRepository.findByOwnerContainsAndMakeContains(anyString(), anyString())).thenReturn(Arrays.asList(automobiles));
+        AutosList autoslist = autosService.getAutosByOwnerAndMake("mavi", "Toyota");
+        assertThat(autoslist).isNotNull();
+        assertTrue(autoslist.isEmpty());
     }
 
     @Test
@@ -103,6 +153,16 @@ class AutosServiceTest {
     }
 
     @Test
+    @DisplayName("GET an empty array when search by make and color has no results")
+    void searchAutosByMakeAndColor_ReturnsEmptyArray() {
+        Automobile[] automobiles = new Automobile[0];
+        when(autosRepository.findByMakeContainsAndColorContains(anyString(), anyString())).thenReturn(Arrays.asList(automobiles));
+        AutosList autoslist = autosService.getAutosByMakeAndColor("mavi", "Toyota");
+        assertThat(autoslist).isNotNull();
+        assertTrue(autoslist.isEmpty());
+    }
+
+    @Test
     @DisplayName("GET all can filter by owner and make")
     void searchAutosByColorAndOwnerAndMake() {
         Automobile automobile = new Automobile("blue,", "Toyota", 1994, "Camry", "ruben", "44444");
@@ -110,6 +170,16 @@ class AutosServiceTest {
         AutosList autoslist = autosService.getAutosByColorAndOwnerAndMake( "blue", "ruben", "Toyota");
         assertThat(autoslist).isNotNull();
         assertFalse(autoslist.isEmpty());
+    }
+
+    @Test
+    @DisplayName("GET an empty array when search by color and owner and make has no results")
+    void searchAutosByColorAndOwnerAndMake_ReturnsEmptyArray() {
+        Automobile[] automobiles = new Automobile[0];
+        when(autosRepository.findByColorContainsAndOwnerContainsAndMakeContains(anyString(), anyString(), anyString())).thenReturn(Arrays.asList(automobiles));
+        AutosList autoslist = autosService.getAutosByColorAndOwnerAndMake("blue", "mavi", "Toyota");
+        assertThat(autoslist).isNotNull();
+        assertTrue(autoslist.isEmpty());
     }
 
     @Test
