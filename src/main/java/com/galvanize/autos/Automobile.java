@@ -16,6 +16,7 @@ public class Automobile {
     private String make;
     private String model;
     private String owner;
+    @Column(unique=true)
     private String vin;
     private int year;
 
