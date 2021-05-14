@@ -71,6 +71,6 @@ production:
     - apt-get install -y ruby-dev
     - gem install dpl
     #                        App name from prev step  Key from your heroku account
-    - dpl --provider=heroku --app=ruben-mavi-autos-api --api-key=$50a6593d-5493-44dd-a6cb-35b7d985dd5c
+    - dpl --provider=heroku --app=ruben-mavi-autos-api --api-key=$HEROKU_API_KEY
   only: # Heroku will ONLY deploy from main or master branch!
     - master
