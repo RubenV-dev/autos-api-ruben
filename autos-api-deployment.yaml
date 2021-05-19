@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autos-api-ruben-mavi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: autos-api-ruben-mavi
+  template:
+    metadata:
+      labels:
+        app: autos-api-ruben-mavi
+    spec:
+      containers:
+        - image: $IMAGE
+          name: autos-api-ruben-mavi
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: $DB_HOST
+            - name: DB_NAME
+              value: $DB_NAME
+            - name: DB_USER
+              value: $DB_USER
+            - name: DB_PWD
+              value: $DB_PWD
+      imagePullSecrets: # Be sure the token name matches what you created on K8s
+        - name: mtp-autos-registry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: autos-api-ruben-mavi-lb
+spec:
+  type: LoadBalancer
+  selector:
+    app: autos-api-ruben-mavi
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: http
