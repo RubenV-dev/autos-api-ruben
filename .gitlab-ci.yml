@@ -74,5 +74,4 @@ deploy:
     - aws sts get-caller-identity
 
   script:
-    - envsubst < k8s-deploy.yaml | kubectl apply -f -
-    - kubectl apply -f k8s-service.yaml
+    - envsubst < autos-api-deployment.yaml | kubectl apply -f -
