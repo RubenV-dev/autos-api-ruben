@@ -1,7 +1,5 @@
 package com.galvanize.autos;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -49,7 +47,6 @@ public class AutosList {
         return Objects.hash(automobiles);
     }
 
-    @JsonIgnore
     public boolean isEmpty(){
         return this.automobiles.isEmpty();
     }
